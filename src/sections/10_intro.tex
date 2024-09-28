@@ -1,37 +1,16 @@
-
-% - c'est quoila detection d'intrusion (familles misuse/anomaly)
-% - bcp de données, besoin de ML
-% - donnée locales -> partage impossible -> FL
-
-% \begin{frame}{Intrusion Detection} % -> bouger en case study
-  
-%   \textbf{Machine Learning (ML) for Network-based Intrusion Detection Systems (NIDSs)}
-%   \begin{itemize}
-%     \item Detect \alert{malicious} activities (\ie, \textit{misuse detection}) or \alert{anomalies} (\ie, \textit{anomaly detection}).
-%     \item Various types of algorithms: \alert<2>{supervised}, unsupervised, semi-supervised, reinforcement learning, \textit{etc}.
-%     \item Great performance with Deep Learning (DL) (on public datasets at least).
-%   \end{itemize}
-%   \bigskip
-    
-%   \begin{figure}
-%     \centering
-%     \makebox[\textwidth][c]{\includegraphics[width=.9\textwidth]{figures/intro/mlp-workflow.pdf}}
-%     \caption{Typical workflow for ML-based NIDSs.}
-%   \end{figure}
-% \end{frame}
-
-\begin{frame}{Intrusion Detection}
+\begin{frame}[t]{Intrusion Detection}
   \vspace{2em}
   \begin{block}{Intrusion Detection System (IDS)}
     IDSs monitor the behavior of a system to detect malicious activities.
   \end{block}
 
-  \pause
   \begin{figure}
     \centering
-    \includegraphics[width=.75\textwidth]{figures/intro/ids.pdf}
+    \includegraphics<2>[width=.75\textwidth]{figures/intro/ids.pdf}
+    \includegraphics<3>[width=.75\textwidth]{figures/intro/ids-us.pdf}
   \end{figure}
 \end{frame}
+
 
 \begin{frame}{Machine Learning for Intrusion Detection}
 
@@ -60,25 +39,46 @@
   \end{columns}
 \end{frame}
 
-
-% TODO slide -> collaborative learning
+\begin{frame}{Data Sharing}
+% TODO:
 % pas assez de données, faisons un pot commun !
 % oui mais non :
 % - confidentialité des données 
 % - confiance dans le point de collecte
 % - confiance dnas le processus d'apprentissage
 % - pas de modèle de detection sans serveur
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/intro/collab.pdf}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \textbf{Let's pool our data!}\pause{} \textbf{Although\dots}
+    \begin{itemize}
+      \item Privacy concerns.
+      \item Lack of trust in the data holder.
+      \item Lack of trust in the learning process.
+      \item Lack of incentives.
+      \item \dots
+    \end{itemize}
+  \end{column}
+\end{columns}
+\end{frame}
+
 
 \begin{frame}{Scaling Intrusion Detection}
 
   \textbf{Federated Learning (FL)}
   
   \begin{itemize}[<+->]
-    \item Novel-\emph{ish} distributed ML paradigm (Google, 2017)~\cite{mcmahan_Communicationefficientlearningdeep_2017}.
+    \item Novel-\emph{ish} distributed ML paradigm (Google, 2017)~\autocite{mcmahan_Communicationefficientlearningdeep_2017}.
     \item Distributed clients can train a common model without sharing their training data.
     \item \alert{Privacy-preserving}: high level of abstraction for the shared models preventing data leakage.
   \end{itemize}
+
+  \fcitefootnote{mcmahan_Communicationefficientlearningdeep_2017}
 \end{frame}
+
 
 \begin{frame}{FL Fundamentals}
   \vspace{-1em}
@@ -90,6 +90,7 @@
     \caption{Typical FL workflow, applied to NIDSs.}
   \end{figure}
 \end{frame}
+
 
 \begin{frame}{FL for NIDSs}
 
@@ -113,14 +114,16 @@
   \end{itemize}
 \end{frame}
 
+
 \begin{frame}{Case Study}
+  \bigskip
   \textbf{Collaborative Intrusion Detection between Distributed Organizations}
   \begin{itemize}
     \item Each organization has its own NIDS and monitors an information system.
     \item They want to improve their detection capabilities.
     \item Share knowledge about new attacks or specific devices.
   \end{itemize}
-
+  \bigskip
   \pause
   \begin{figure}
     \centering
@@ -128,6 +131,7 @@
     \caption{Typical workflow for ML-based NIDSs.}
   \end{figure}
 \end{frame}
+
 
 \begin{frame}{Case Study -- Generalization}
   \textbf{A cross-silo use case}~\cite{kairouz_AdvancesOpenProblems_2021}:
@@ -137,6 +141,47 @@
     \item high availability, significant computing resources.
   \end{itemize}
 \end{frame}
+
+
+\begin{frame}{State of the Art}
+  
+  \begin{columns}
+    \begin{column}{.45\textwidth}
+      % \textbf{Systematic Literature Review (SLR)}~\autocite{lavaur_tnsm_2022}
+      % \begin{itemize}
+      %   \item Booming topic over the last 4--5 years.
+      %   \item Very heterogeneous venues and communities.
+      % \end{itemize}
+
+      \textbf{Challenges from the Literature}~\autocite{lavaur_tnsm_2022}
+      \begin{itemize}[<+->]
+        \item \emph{Functionality}: \chqual[5-]{performance}, \chhetero[5-]{heterogeneity}, \chtransfer[5-]{transferability}, self-defense, and self-healing.
+        \item \emph{Deployment}: \chunknown[5-]{adaptability} and \chdecent[5-]{scalability}.
+        \item \emph{Security and reliability}: \chpoison[5-]{security}, privacy, \chpoison[5-]{trust}, and reputation.
+        \item \emph{Experimentation}: evaluation.
+      \end{itemize}
+    \end{column}
+    \begin{column}{.55\textwidth}
+      \only<4-5>{%
+        \begin{figure}
+          \centering
+          \resizebox{\linewidth}{!}{\input{figures/intro/challenges_histogram.pgf}}
+          \caption{Challenges addressed by the literature (until 2024-04).}
+        \end{figure}
+      }
+      \only<6>{%
+        \begin{figure}
+          \centering
+          \resizebox{\linewidth}{!}{\input{figures/intro/year_histogram.pgf}}
+          \caption{Publication venues on FL \& IDS (until 2024-04).}
+        \end{figure}
+      }
+    \end{column}
+  \end{columns}
+
+  \fcitefootnote{lavaur_tnsm_2022}
+\end{frame}
+
 
 \begin{frame}{Heterogeneity Headaches}
   
@@ -195,14 +240,27 @@
   \end{enumerate}
 \end{frame}
 
+
 \begin{frame}[b]{Thesis Summary}
   \centering%
-  \foreach \i in {1,...,12} {%
+  \foreach \i in {1,...,11} {%
     \includegraphics<\i>[width=1.1\linewidth, center]{./figures/intro/metro/\i.pdf}%
   }
-\end{frame}
+  \includegraphics<12->[width=1.1\linewidth, center]{./figures/intro/metro/12.pdf}%
 
-\begin{frame}{Outline}
-  \setbeamercolor{enumerate item}{fg=imta-blue}
-  \tableofcontents[hideallsubsections,]
+  \only<13>{
+    \tikz[overlay, remember picture,
+      shift=(current page.south west),
+      x=(current page.south east),
+      y=(current page.north west)
+    ]{
+      % Optional help grid lines
+      %\draw[step=.1, opacity=0.3, thick, red] (0,0) grid (1,1);
+      
+      \node[align=left, anchor=south west] at (.05, .05) {\begin{minipage}{.9\textwidth}
+        \tableofcontents
+      \end{minipage}};
+    }
+  }
+
 \end{frame}

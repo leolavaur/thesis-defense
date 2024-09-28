@@ -24,36 +24,41 @@
 \end{frame}
 
 \begin{frame}{Types of Poisoning Attacks}
-  \begin{itemize}
-    \item By \emph{component}:
-    \begin{itemize}
-      \item Data poisoning (\eg, \alert<5>{label-flipping}, clean-label attacks, backdoors)
-      \item Model poisoning (\eg, gradient boosting, noising)
-    \end{itemize}\emph{}
-
+  \vspace{1em}
+  
+  \setlength{\leftmargini}{5pt}
+  \begin{tcbraster}[raster columns=2, raster equal height, raster column skip=2em, raster row skip=2em]
     \pause
-    \item By \emph{target}:
-    \begin{itemize}
-      \item \alert<5>{Untargeted}: affect the model's global performance
-      \item \alert<5>{Targeted}: modify its behavior on specific classes or instances
-    \end{itemize}
-
+    \begin{taxobox}[By \emph{component}]
+      \begin{itemize}
+        \item Data poisoning (\eg, \textbf<5>{label-flipping}, clean-label)
+        \item Model poisoning (\eg, gradient boosting)
+      \end{itemize}
+    \end{taxobox}
     \pause
-    \item By \emph{frequency}:
-    \begin{itemize}
-      \item one-shot: attacks are performed once
-      \item iterative/\alert<5>{continuous}: at each round
-      \item adaptive: reacts to the model aggregation
-    \end{itemize}
-
+    \begin{taxobox}[By \emph{objective}]
+      \begin{itemize}
+        \item Untargeted: impact model performance
+        \item Targeted: modify behavior for specific samples
+      \end{itemize}
+    \end{taxobox}
     \pause
-    \item By \emph{collusion}:
-    \begin{itemize}
-      \item \alert<5>{Single attacker}
-      \item \alert<5>{Colluding attackers}: multiple coordinated participants
-    \end{itemize}
-  \end{itemize}
+    \begin{taxobox}[By \emph{timing}]
+      \begin{itemize}
+        \item one-shot: performed once
+        \item \textbf<5>{incremental/continuous}: at each round
+      \end{itemize}
+    \end{taxobox}
+    \pause
+    \begin{taxobox}[By \emph{proportion}]
+      \begin{itemize}
+        \item Single attacker
+        \item Colluding attackers: multiple coordinated participants
+      \end{itemize}
+    \end{taxobox}
+  \end{tcbraster}
 \end{frame}
+  
 
 \begin{frame}{Scope of the Study}
   % \begin{block}{Our work\normalfont~\cite{lavaur_ares_bass_2024}}

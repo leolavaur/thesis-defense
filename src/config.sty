@@ -16,4 +16,36 @@
 \usepackage{multirow}
 \usepackage{colortbl}
 
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{taxobox}[1][]{
+  enhanced,
+  colback=imta-blue!5,
+  colbacktitle=imta-blue,
+  coltitle=white,
+  sharp corners,
+  frame hidden,
+  boxrule=0pt,
+  fontupper=\small,
+  fonttitle=\bfseries,
+  after title app=\strut,
+  height=3cm,
+  title=#1
+}
+
+\usepackage[absolute]{textpos}
+\setlength{\TPHorizModule}{30mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+
+\usepackage{tikz}
+
+\newcommand<>\highlightbox[2]{%
+  \alt#3{\makebox[\dimexpr\width-2\fboxsep]{\colorbox{#1}{#2}}}{#2}%
+}
+\definecolor{chal-poison}{HTML}{1e78b4}\newcommand{\chpoison}[2][1-]{\highlightbox<#1>{chal-poison!50}{#2}}
+\definecolor{chal-qual}{HTML}{ff7f0f}\newcommand{\chqual}[2][1-]{\highlightbox<#1>{chal-qual!50}{#2}}
+\definecolor{chal-decent}{HTML}{2da02d}\newcommand{\chdecent}[2][1-]{\highlightbox<#1>{chal-decent!50}{#2}}
+\definecolor{chal-feat}{HTML}{d62727}\newcommand{\chfeat}[2][1-]{\highlightbox<#1>{chal-feat!50}{#2}}
+\definecolor{chal-hetero}{HTML}{9567bd}\newcommand{\chhetero}[2][1-]{\highlightbox<#1>{chal-hetero!50}{#2}}
+\definecolor{chal-unknown}{HTML}{8d574b}\newcommand{\chunknown}[2][1-]{\highlightbox<#1>{chal-unknown!50}{#2}}
+\definecolor{chal-transfer}{HTML}{e377c3}\newcommand{\chtransfer}[2][1-]{\highlightbox<#1>{chal-transfer!50}{#2}}
+\definecolor{chal-comm}{HTML}{7f7f7f}\newcommand{\chcomm}[2][1-]{\highlightbox<#1>{chal-comm!50}{#2}}
