@@ -11,6 +11,7 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 
 \ProcessOptions\relax
+\PassOptionsToClass{aspectratio=169}{beamer}
 \LoadClass{beamer}
 
 \usetheme{metropolis}
@@ -22,7 +23,7 @@
 \metroset{
   numbering=fraction, % Display frame number as a fraction
   progressbar=frametitle, % Adds progress bar below each frame title
-  progressbar=foot, % Adds progress bar at the bottom of each frame
+  %progressbar=foot, % Adds progress bar at the bottom of each frame
   block=fill, % Fill block environments with color
   titleformat frame=smallcaps, % Frame titles in small caps
   sectionpage=none, % Removes section slides
@@ -34,7 +35,7 @@
 %https://tex.stackexchange.com/a/165016/38244
 \hypersetup{
   colorlinks,
-  citecolor=imta-blue,
+  citecolor=imta/blue,
   linkcolor=.,
 }
 
@@ -64,33 +65,58 @@
 % Template customization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Sections
-\setbeamertemplate{section in toc}[sections numbered]
+%\setbeamertemplate{section in toc}[sections numbered]
 
 % Not currently working due to the patching of \beamer@section below; todo.
-\setbeamercolor{section number projected}{fg=imta-blue}
+\setbeamercolor{section number projected}{fg=imta/blue}
 
 % \setbeamertemplate{subsection in toc}[subsections numbered]
 
+%\setbeamertemplate{frame footer}{\insertsectionhead}
+\RequirePackage{calc}
+\RequirePackage{xifthen}
+
+\newlength{\currentsectionwidth}
+\newlength{\maxsectionwidth}
+
 \makeatletter
-\setbeamertemplate{section page}{%
-  \centering
-  \begin{minipage}{30em}
-    \raggedright
-    \usebeamercolor[fg]{section title}
-    \usebeamerfont{section title}
-    \insertsectionhead\\[-1ex]
-    \usebeamertemplate*{progress bar in section page}
-    \par
-    \ifx\insertsubsectionhead\@empty\else%
-      \usebeamercolor[fg]{subsection title}%
-      \usebeamerfont{subsection title}%
-      \insertsubsectionhead
-    \fi
-  \end{minipage}
-  \par
-  \vspace{\baselineskip}
+\setlength{\metropolis@progressinheadfoot@linewidth}{3pt}
+
+\setbeamertemplate{frametitle}{%
+  \settowidth{\currentsectionwidth}{\insertsectionhead}%
+  \setlength{\maxsectionwidth}{\paperwidth-2\metropolis@frametitle@padding-\widthof{\insertframetitle}-1em}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\metropolis@frametitle@padding,%
+      rightskip=\metropolis@frametitle@padding,%
+    ]{frametitle}%
+  \metropolis@frametitlestrut@start%
+  \insertframetitle%
+  \ifthenelse{\currentsectionwidth<\maxsectionwidth}{%
+    \hfill%
+    \normalfont\normalshape\footnotesize\insertsectionhead%
+  }{}%
+  \nolinebreak%
+  \metropolis@frametitlestrut@end%
+  \end{beamercolorbox}%
+  \usebeamertemplate*{progress bar in head/foot}%
 }
 \makeatother
+
+% Reduce footer height (from 3 to 2ex)
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\textwidth, sep=2ex]{footline}%
+    \usebeamerfont{page number in head/foot}%
+    \usebeamertemplate*{frame footer}
+    \hfill%
+    \usebeamertemplate*{frame numbering}
+  \end{beamercolorbox}%
+}
+
+
+
 
 
 \newcounter{sectionpage}
@@ -113,25 +139,32 @@
 \renewcommand{\footnotesize}{\scriptsize}
 
 % Colors IMTA
-\definecolor{imta-blue}{HTML}{00B8DE}
-\definecolor{imta-green}{HTML}{99CC33}
-\definecolor{imta-gray}{HTML}{f4f6f5}
-\definecolor{imta-darkblue}{HTML}{14223C}
+\definecolor{imta/blue}{HTML}{00B8DE}
+\definecolor{imta/green}{HTML}{99CC99}
+\definecolor{imta/gray}{HTML}{EDF3F4}
+\definecolor{imta/darkblue}{HTML}{14223C}
 
 % Draw.io colors
-\definecolor{drawio-grey}{HTML}{666666}
-\definecolor{drawio-blue}{HTML}{6C8EBF}
-\definecolor{drawio-green}{HTML}{82B366}
-\definecolor{drawio-orange}{HTML}{D79B00}
-\definecolor{drawio-yellow}{HTML}{D6B656}
-\definecolor{drawio-red}{HTML}{B85450}
-\definecolor{drawio-purple}{HTML}{9673A6}
+\definecolor{drawio/fill-gray}{HTML}{F5F5F5}
+\definecolor{drawio/fill-blue}{HTML}{DAE8FC}
+\definecolor{drawio/fill-green}{HTML}{D5E8D4}
+\definecolor{drawio/fill-orange}{HTML}{FFE6CC}
+\definecolor{drawio/fill-yellow}{HTML}{FFF2CC}
+\definecolor{drawio/fill-red}{HTML}{F8CECC}
+\definecolor{drawio/fill-purple}{HTML}{E1D5E7}
+\definecolor{drawio/border-gray}{HTML}{666666}
+\definecolor{drawio/border-blue}{HTML}{6C8EBF}
+\definecolor{drawio/border-green}{HTML}{82B366}
+\definecolor{drawio/border-orange}{HTML}{D79B00}
+\definecolor{drawio/border-yellow}{HTML}{D6B656}
+\definecolor{drawio/border-red}{HTML}{B85450}
+\definecolor{drawio/border-purple}{HTML}{9673A6}
 
-\colorlet{emph-color}{imta-blue}
+\colorlet{emph-color}{imta/blue}
 
-\setbeamercolor{alerted text}{fg=imta-blue}
-\setbeamercolor{example text}{fg=imta-green}
-\setbeamercolor{palette primary}{fg=imta-darkblue,bg=imta-gray}
+\setbeamercolor{alerted text}{fg=imta/blue}
+\setbeamercolor{example text}{fg=imta/green}
+\setbeamercolor{palette primary}{fg=imta/darkblue,bg=imta/gray}
 
 
 
@@ -149,10 +182,10 @@
 % Lists
 
 \setbeamertemplate{itemize item}{\raisebox{0.4\height}{%
-  \smaller\color{imta-green}$\blacktriangleright$%
+  \smaller\color{imta/green}$\blacktriangleright$%
 }}
 \setbeamertemplate{itemize subitem}{\raisebox{0.4\height}{%
-  \smaller\color{imta-green}$\bullet$%
+  \smaller\color{imta/green}$\bullet$%
 }}
 \RequirePackage{fontspec}
 \newfontfamily\archer{ArcherLightPro}[
@@ -160,7 +193,7 @@
     Extension   =   .otf            ,
 ]
 \DeclareTextFontCommand{\textnicemono}{\archer}
-\setbeamertemplate{enumerate items}{\archer\large\bfseries\color{imta-darkblue}\insertenumlabel.}
+\setbeamertemplate{enumerate items}{\archer\large\bfseries\color{imta/darkblue}\insertenumlabel.}
 
 % Footnote without a marker
 % --------------------------
@@ -219,9 +252,12 @@
     \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
     \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
     \usebeamertemplate*{title separator}
-    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    % \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    % \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    % \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \vspace*{2em}
+    \insertauthor\hfill\insertdate\par%
     \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
-    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
     \vfill%
     \vspace*{1.5em}% Changed from 1mm to 1em
     \ifx\insertjury\@empty\else\insertjury\fi

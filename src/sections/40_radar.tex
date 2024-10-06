@@ -1,10 +1,15 @@
 
 % RADAR: Mitigating Byzantine Contributions in Heterogeneous Settings
 % ------------------------------------------------------------------------------
+\setlength{\titleoffset}{-1.05cm}
+\section
+  [{\texttt{RADAR}~\circled[contrib/radar]{R}}]
+  {\circled[contrib/radar]{R}~Fighting Byzantine Contributions in Heterogeneous Settings}
 
-\section{Fighting Byzantine Contributions in Heterogeneous Settings}
+% \begingroup
+% \setbeamertemplate{frame footer}{\circled[contrib/radar]{R}~\texttt{RADAR}}
 
-\begin{frame}
+\begin{frame}[plain]
   \sectionpage
 
   \fcitefootnote{lavaur_radar_2024}
@@ -20,10 +25,14 @@
     \item Partial heterogeneity in the datasets: organizations have different data distributions but can share similarities.
   \end{itemize}
 
-  \textbf{Byzantine contributions}
+  \textbf{Byzantine contributions:}
   \begin{itemize}
-    \item No guarantees on the quality of the contributions.
-    \item Can be intentional, due to poor data quality, or due to data distribution mismatches.
+    %\item No guarantees on the quality of the contributions.
+    %\item Can be intentional, due to poor data quality, or due to data distribution mismatches.
+    \item data quality issues (\eg, labelling, noise);
+    \item distribution mismatches; and
+    \item adversaries, \textit{possibly colluding}.
+
   \end{itemize}
 
 \end{frame}
@@ -34,6 +43,9 @@
   \end{block}
 \end{frame}
 
+
+\begingroup  % Remove the Author for this slide, as the citations step on the footer.
+\setbeamertemplate{frame footer}{}
 \begin{frame}{Existing Solutions}
 
   \begin{columns}[T]
@@ -65,7 +77,7 @@
 
         \begin{itemize}\smaller
           \item Less related to client data.
-          \item More appropriate for high-dimensional data.
+          %\item More appropriate for high-dimensional data.
         \end{itemize}
       \end{column}%
     }
@@ -96,21 +108,23 @@
   \only<3->{\fcitefootnote{zhao_ShieldingCollaborativeLearning_2020}}
 
 \end{frame}
+\endgroup
 
-% \begin{frame}{The RADAR Architecture}
-
-%   \begin{figure}
-%     \centering
-%     \includegraphics<1>[width=.7\textwidth]{figures/radar/architecture}
-%     \includegraphics<2>[width=.7\textwidth]{figures/radar/architecture-xeval}
-%     \caption{The RADAR architecture.}
-%   \end{figure}
-
-
-% \end{frame}
+\begin{frame}{Architecture \& Overview}
+  \centering
+    \begin{figure}
+        \centering
+        \foreach \i in {1,...,4} {
+          \includegraphics<\i>[width=.95\linewidth,left]{figures/radar/agenda/\i.pdf}%
+        }
+        \caption*{\texttt{RADAR} architecture. } % remove Figure:
+        \label{fig:radar}
+    \end{figure}  
+         
+    % \tableofcontents%[hideallsubsections,]
+\end{frame}
 
 \begin{frame}{Assessing Quality with Cross-Evaluation}
-
 
   \begin{columns}
     \begin{column}{.45\textwidth}
@@ -127,27 +141,24 @@
 
       \textbf{Advantages}
       \begin{itemize}
-        \item The central server does not need prior knowledge.
-        \item Evaluates how each model fits the data (\eg, accuracy, F1 score).
-        \item Exhaustive overview of the entire system at each round $r$.
+        \item Exhaustive overview of the entire system at each round $r$. \alert{No need of prior knowledge!}
+        \item Evaluations (\eg, accuracy, F1 score) representative of participants' data.
       \end{itemize}
-
-      \onslide<2->{%
-        \textbf{Drawbacks}
-        \begin{itemize}
-          \item High communication and computation costs.
-          \item Does not scale well.
-          \item Shares local models to participants: less privacy-friendly.
-        \end{itemize}
-      }
-
-      \onslide<3->{%
-        \textbf{But\dots}
-        \begin{itemize}
-          \item Cross-silo use case: few clients, with reasonable computing capacity.
-          \item Slow workflow: long time between rounds.
-        \end{itemize}
-      }   
+      \medskip
+      \pause
+      \textbf{Drawbacks}
+      \begin{itemize}
+        \item High communication and computation costs.
+        \item Does not scale well.
+        %\item Shares local models to participants: less privacy-friendly.
+      \end{itemize}
+      \medskip
+      \pause
+      \textbf{But\dots}
+      \begin{itemize}
+        \item Cross-silo use case: few clients, with reasonable computing capacity.
+        \item Slow workflow: long time between rounds.
+      \end{itemize}
     \end{column}
 
   \end{columns}
@@ -155,121 +166,186 @@
 \end{frame}
 
 
-% Parler du thresold dynamique et de sa méthode de calcul. 
-% 
+
 \begin{frame}{Fighting Heterogeneity with Clustering}
+  \bigskip\bigskip
+  \centering
+  \begin{minipage}{.8\textwidth}
+    \textbf{Objective}
+    \begin{itemize}
+      \item Build \emph{more} homogeneous communities of participants to facilitate model aggregation.
+    \end{itemize}    
+  \end{minipage}
+
   
-  \textbf{Objective}
-  \begin{itemize}
-    \item Build \emph{more} homogeneous communities of participants to facilitate model aggregation.
-  \end{itemize}
-
-
-    \pause
-    \textbf{Clustering for FL}
-
-    \begin{columns}
-        
-        \begin{column}{.5\textwidth}
-            \begin{itemize}
-                \item Distance metric:
-                \begin{itemize}
-                    \item Between models/gradients;
-                    \item L1/L2 Norm, cosine similarity\dots~\cite{briggs_Federatedlearninghierarchical_2020}
-                \end{itemize}
-            \end{itemize}
-        \end{column}
-    
-        \pause
-        \begin{column}{.45\textwidth}
-              \begin{itemize}
-    
-              \item Algorithms:
-              \begin{itemize}
-                \item Dynamic \emph{split-and-merge}.~\autocite{chen_ZeroKnowledgeClustering_2021}
-                \item Hierarchical clustering.~\autocite{briggs_Federatedlearninghierarchical_2020}
-              \end{itemize}
-            \end{itemize}
-    
-        \end{column}
-    \end{columns}
-
-    \only<2->{\fcitefootnote{briggs_Federatedlearninghierarchical_2020}}
-    \only<3->{\fcitefootnote{chen_ZeroKnowledgeClustering_2021}}
-\end{frame}
-
-\begin{frame}{Fighting Heterogeneity with Clustering}
-    \begin{columns}
-        \begin{column}{.4\textwidth}
-
-        Leverage cross-evaluation results instead of model updates:
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \pause
+      \begin{itemize}
+        \item Distance metric
         \begin{itemize}
-            \item subjective similarity estimation;
-            \item similar evaluations $\rightarrow$ similar data distributions;
+            \item Based on \alert{cross-evaluation} results. 
+            \item \alert{Cosine similarity}~\autocite{briggs_Federatedlearninghierarchical_2020}.
         \end{itemize}
+      \end{itemize}
+      
+      \pause
+      \begin{itemize}
+        \item Algorithm
+        \begin{itemize}
+          \item \alert{Hierarchical clustering}.~\autocite{briggs_Federatedlearninghierarchical_2020}
+          \item Dynamic aggregation threshold. 
+        \end{itemize}
+      \end{itemize}
+    \end{column}
 
-        \end{column}
-        \begin{column}{.6\textwidth}
-            \begin{figure}
-                \centering
-                \includegraphics[width=\textwidth]{figures/radar/clustering.drawio.pdf}
-                % \makebox[\textwidth][c]{%
-                %   \includegraphics[width=1.2\textwidth]{figures/radar/clustering.drawio.pdf}%
-                % }
-                \caption{Hierarchical clustering.}
-            \end{figure}
-        \end{column}
-    \end{columns}
+
+      \begin{column}{.5\textwidth}
+        \begin{figure}
+          \centering
+          \includegraphics[width=\textwidth]{figures/radar/clustering.drawio.pdf}
+          \caption{Hierarchical clustering.}
+        \end{figure}
+      \end{column}
+  \end{columns}
+  \bigskip
+  \only<2->{\fcitefootnote{briggs_Federatedlearninghierarchical_2020}}
+
 \end{frame}
+
+% \begin{frame}{Fighting Heterogeneity with Clustering}
+  
+%   \textbf{Objective}
+%   \begin{itemize}
+%     \item Build \emph{more} homogeneous communities of participants to facilitate model aggregation.
+%   \end{itemize}
+
+
+%     \pause
+%     \textbf{Clustering for FL}
+
+%     \begin{columns}
+        
+%         \begin{column}{.5\textwidth}
+%             \begin{itemize}
+%                 \item Distance metric:
+%                 \begin{itemize}
+%                     \item Between models/gradients;
+%                     \item L1/L2 Norm, cosine similarity\dots~\cite{briggs_Federatedlearninghierarchical_2020}
+%                 \end{itemize}
+%             \end{itemize}
+%         \end{column}
+    
+%         \pause
+%         \begin{column}{.45\textwidth}
+%               \begin{itemize}
+    
+%               \item Algorithms:
+%               \begin{itemize}
+%                 \item Dynamic \emph{split-and-merge}.~\autocite{chen_ZeroKnowledgeClustering_2021}
+%                 \item Hierarchical clustering.~\autocite{briggs_Federatedlearninghierarchical_2020}
+%               \end{itemize}
+%             \end{itemize}
+    
+%         \end{column}
+%     \end{columns}
+
+%     \only<2->{\fcitefootnote{briggs_Federatedlearninghierarchical_2020}}
+%     \only<3->{\fcitefootnote{chen_ZeroKnowledgeClustering_2021}}
+% \end{frame}
+
+% \begin{frame}{Fighting Heterogeneity with Clustering}
+%     \begin{columns}
+%         \begin{column}{.4\textwidth}
+
+%         Leverage cross-evaluation results instead of model updates:
+%         \begin{itemize}
+%             \item subjective similarity estimation;
+%             \item similar evaluations $\rightarrow$ similar data distributions;
+%         \end{itemize}
+
+%         \end{column}
+%         \begin{column}{.6\textwidth}
+%             \begin{figure}
+%                 \centering
+%                 \includegraphics[width=\textwidth]{figures/radar/clustering.drawio.pdf}
+%                 % \makebox[\textwidth][c]{%
+%                 %   \includegraphics[width=1.2\textwidth]{figures/radar/clustering.drawio.pdf}%
+%                 % }
+%                 \caption{Hierarchical clustering.}
+%             \end{figure}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
 
 
 \begin{frame}{Reputation-aware Aggregation}
 
   \begin{block}{Definition: Reputation Systems\normalfont~\autocite{resnick_Reputationsystems_2000}}
     \begin{itemize}
-      \item Long-lived entities that inspire an expectation of future interaction;
-      \item Capture and distribution of feedback about current interactions (such information must be visible in the future); and
+      \item Long-lived entities expecting future interaction.
+      \item Capture and distribution of feedback about current interactions (such information must be visible in the future).
       \item Use of feedback to guide trust decisions.
     \end{itemize}
   \end{block}
-
-  \onslide<2>{%
-    \begin{itemize}
-      \item Dirichlet distribution for local aggregation of the reputation scores.~\autocite{fung_DirichletBasedTrustManagement_2011}
-      \item Votes weighted by the similarity inside each cluster.
-      \item Exponential decay for potential redemption.
-    \end{itemize}
-  }
-
   \fcitefootnote{resnick_Reputationsystems_2000}
-  \only<2>{%
-    \fcitefootnote{fung_DirichletBasedTrustManagement_2011}
-  }
+
+  \pause
+  \begin{itemize}
+    %\item Dirichlet distribution for local aggregation of the reputation scores.~\autocite{fung_DirichletBasedTrustManagement_2011}
+    \item Votes weighted by the similarity inside each cluster.
+    \item Exponential decay for potential redemption.
+  \end{itemize}
+
+  % \only<2>{%
+  %   \fcitefootnote{fung_DirichletBasedTrustManagement_2011}
+  % }
 
 \end{frame}
 
-\begin{frame}{Experimental Setup}
-  \begin{columns}
-    \begin{column}{.55\textwidth}
-      Similar setup as in the previous case study:
-      \begin{itemize}
-        \item Heterogeneous datasets, but some participants can share similarities.
-        \item 4 datasets: CIC-CSE-IDS2018, UNSW-NB15, Bot-IoT, ToN\_IoT.
-        \item NF-V2~\autocite{sarhan_StandardFeatureSet_2021} feature set (\ie, NetFlow V9).
-      \end{itemize}
-    \end{column}
-    \begin{column}{.45\textwidth}
-      \begin{figure}
+\begin{frame}{Setup: Simulating Practical Heterogeneity}
 
-        \includegraphics<1>[height=.5\textheight,left]{figures/radar/distribution.png}%
-        \includegraphics<2>[height=.5\textheight,left]{figures/radar/distribution-attack.png}%
-
-        \caption{Distribution of the datasets.}
-      \end{figure}
-    \end{column}
-  \end{columns}
-  \fcitefootnote{sarhan_StandardFeatureSet_2021}
-\end{frame}
+    \begin{columns}
+      \begin{column}{.4\textwidth}
+        \textbf{Datasets}
+        \begin{itemize}
+          \item Heterogeneous datasets, but some participants can share similarities.
+          \item 4 datasets: CIC-CSE-IDS2018, UNSW-NB15, Bot-IoT, ToN\_IoT.
+          \item NF-V2~\autocite{sarhan_StandardFeatureSet_2021} feature set (\ie, NetFlow V9).
+        \end{itemize}
+      \end{column}
+      \begin{column}{.56\textwidth}
+        \begin{figure}
+          \includegraphics[width=\linewidth]{figures/radar/partition.pdf}%
+        \end{figure}
+      \end{column}
+    \end{columns}
+    \fcitefootnote{sarhan_StandardFeatureSet_2021}
+  \end{frame}
+  
+  \begin{frame}{Setup: Attack scenarios}
+      \begin{columns}
+          \begin{column}{.4\textwidth}
+              \textbf{Parameters}
+              \begin{itemize}
+                  \item \textit{Target}: Affected classes.
+                  \item \textit{Data Poisoning Rate (DPR)}: proportion of targeted data with flipped labels.
+                  \item \textit{Model Poisoning Rate (MPR)}: number of attackers in the cluster.
+              \end{itemize}
+          \end{column}
+          \begin{column}{.56\textwidth}
+            \begin{figure}
+              \captionsetup{font=small, labelfont=small}
+              \includegraphics[width=\linewidth]{figures/radar/poisoning.pdf}%
+              \captionsetup{justification=centering}
+              \caption*{
+                \texttt{colluding minority 100T}\\
+                \smaller (\ie, 2 attackers, 100\% DPR on Reconnaissance class).
+              }
+            \end{figure}
+          \end{column}
+      \end{columns}
+  \end{frame}
 
 \begin{frame}{Results}
   \begin{table}
@@ -282,7 +358,7 @@
     \footnotesize
 
     \newcommand{\hl}{}
-    \only<2>{\renewcommand{\hl}{\cellcolor{imta-green!30}}}
+    \only<2>{\renewcommand{\hl}{\cellcolor{imta/green!30}}}
 
 
   
@@ -325,20 +401,43 @@
 %   \end{figure}
 % \end{frame}
 
-\begin{frame}{Takeaways}
-  \textbf{The proposed framework can:}
-  \begin{itemize}
-    \item Accurately cluster similar participants based on cross evaluations results.
-    \item Mitigate label-flipping untargeted attacks via clustering.
-    \item Mitigate most label-flipping targeted attacks, including colluding attackers (up to 80\% of poisoned data).
-  \end{itemize}
-
-  \onslide<2>{%
-    \textbf{Future works:}
+\begin{frame}{Takeways}
+  \begin{enumerate}
+    \item \texttt{RADAR} can:
     \begin{itemize}
-      \item Remove the central server dependency.
-      \item Reduce the cross-evaluation overhead to extend applicability to cross device settings.
+      \item leverage \alert{cross-evaluation}, \alert{clustering} and \alert{reputation} to address heterogeneity and Byzantine contributions;
+      \item adjust rapidly to changes in behavior; and
+      \item mitigate most tested scenarios (limiting case handled up to 80\% of poisoned data).
+    \end{itemize}
+
+    \medskip
+    \pause
+    \item How generic?
+    \begin{itemize}
+      \item Only few conditions: parametric models, locally owned evaluation set, a \alert<+>{small-scale use case}, and a \alert<+>{trusted central server}.
+    \end{itemize}
+
+    \medskip
+    \pause
+    \item Future works:
+    \begin{itemize}
+      \item Remove the central server dependency for \alert{increased trust and scalability}.
       \item Test the approach in more realistic heterogeneous settings.
     \end{itemize}
-  }
+  \end{enumerate}
+  
+
+
+  % \pause
+  % \textbf{How generic?}
+  % \begin{itemize}
+  %   \item Only few conditions: parametric models, locally owned evaluation set, a \alert<3>{small-scale use case}, and a \alert<3>{trusted central server}.
+  % \end{itemize}
+
+  % \pause
+  % \textbf{Future works:}
+  %   \begin{itemize}
+  %     \item Remove the central server dependency for \alert{increased trust and scalability}.
+  %     \item Test the approach in more realistic heterogeneous settings.
+  %   \end{itemize}
 \end{frame}

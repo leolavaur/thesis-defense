@@ -1,10 +1,15 @@
 
 % Assessing the Impact of Label-flipping Attacks
 % ------------------------------------------------------------------------------
+\setlength{\titleoffset}{-1.05cm}
+\section[{\texttt{Assessment \& eiffel}~\circled[contrib/eiffel]{E}}]
+  {\circled[contrib/eiffel]{E}~Assessing the Impact of Label-Flipping Attacks}
 
-\section{Assessing the Impact of Label-Flipping Attacks}
 
-\begin{frame}
+% \setbeamertemplate{frame footer}{\circled[contrib/eiffel]{E}~\texttt{Assessment \& eiffel}}
+
+
+\begin{frame}[plain]
   \sectionpage
 
   \fcitefootnote{lavaur_ares_bass_2024}
@@ -15,45 +20,58 @@
 
   \begin{figure}
     \centering
-    \foreach \i in {1,...,5}{%
-      \includegraphics<\i>[width=.75\textwidth]{figures/assessment/poisoning/\i.pdf}%
+    \foreach \i in {1,...,7}{%
+      \only<\i>{\hspace*{-1cm}\includegraphics[width=.8\textwidth,trim={0 1cm 0 1cm},clip]{figures/assessment/poisoning/\i.pdf}}%
     }
     \caption{Poisoning attacks on FL.}
   \end{figure}
 
 \end{frame}
 
-\begin{frame}{Types of Poisoning Attacks}
+\begin{frame}{Characterizing Poisoning Attacks}
+  \centering
+  \begin{tcolorbox}[
+    enhanced,
+    colback=imta/green,
+    boxrule=0pt,
+    frame hidden,
+    fontupper=\large\bfseries,
+    hbox,
+    colupper=white,
+  ]
+    Poisoning attacks
+  \end{tcolorbox}
+  
   \vspace{1em}
   
   \setlength{\leftmargini}{5pt}
-  \begin{tcbraster}[raster columns=2, raster equal height, raster column skip=2em, raster row skip=2em]
+  \begin{tcbraster}[raster columns=3, raster equal height, raster column skip=1.5em]
     \pause
-    \begin{taxobox}[By \emph{component}]
+    \begin{taxobox}[Component]
       \begin{itemize}
-        \item Data poisoning (\eg, \textbf<5>{label-flipping}, clean-label)
+        \item Data poisoning (\eg, \alert<5>{label-flipping}, clean-label)
         \item Model poisoning (\eg, gradient boosting)
       \end{itemize}
     \end{taxobox}
     \pause
-    \begin{taxobox}[By \emph{objective}]
+    \begin{taxobox}[Objective]
       \begin{itemize}
         \item Untargeted: impact model performance
         \item Targeted: modify behavior for specific samples
       \end{itemize}
     \end{taxobox}
+    % \pause
+    % \begin{taxobox}[By \emph{timing}]
+    %   \begin{itemize}
+    %     \item one-shot: performed once
+    %     \item \textbf<5>{incremental/continuous}: at each round
+    %   \end{itemize}
+    % \end{taxobox}
     \pause
-    \begin{taxobox}[By \emph{timing}]
-      \begin{itemize}
-        \item one-shot: performed once
-        \item \textbf<5>{incremental/continuous}: at each round
-      \end{itemize}
-    \end{taxobox}
-    \pause
-    \begin{taxobox}[By \emph{proportion}]
+    \begin{taxobox}[Proportion]
       \begin{itemize}
         \item Single attacker
-        \item Colluding attackers: multiple coordinated participants
+        \item Colluding attackers: multiple coordinated adversaries
       \end{itemize}
     \end{taxobox}
   \end{tcbraster}
@@ -150,17 +168,20 @@
 
   \begin{columns}
     \begin{column}{.45\textwidth}
-      \begin{itemize}
+      \begin{itemize}[<+->]
         \item Known technique to detect poisoning attacks~\autocite{tolpegin_DataPoisoningAttacks_2020}.
-        \item Higher heterogeneity makes it harder to detect attackers.
-        \item Colluding attackers usually form a cluster of their own.
+        \item High heterogeneity makes it harder to detect attackers.
+        %\item Colluding attackers usually form a cluster of their own.
       \end{itemize}
     \end{column}
+
     \begin{column}{.55\textwidth}
       \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{figures/assessment/similarity-untargeted-colluding-cicids.pdf}
-        \caption{PCA projection of the uploaded gradients in 2D (CICIDS).}
+        \foreach \i in {1,...,3}{%
+          \includegraphics<\i>[width=\textwidth,trim={1cm 3cm 1cm 3cm},clip]{figures/assessment/similarity-untargeted-colluding-cicids-\i.pdf}%
+        }
+        \caption{PCA projection of the gradients in 2D (CICIDS).}
       \end{figure}
     \end{column}
   \end{columns}
@@ -170,21 +191,25 @@
 \end{frame}
 
 \begin{frame}{Takeaways}
+  \begin{enumerate}
+    \item A \emph{deeper} understanding of the behavior of label-flipping attacks in FL-based CIDSs.
+    \begin{itemize}\small
+      %\item Unpredictability.
+      \item Similarity-based detection techniques show limitations in detecting poisoning attacks.
+      \item Limited by the models' generalization capabilities and the characteristic overlap between classes.
+      \item Hyperparameter dependencies, but not on the average performance impact.
+    \end{itemize}
 
-  A \emph{deeper} understanding of the behavior of label-flipping attacks in FL-based CIDSs.
-  \begin{itemize}\small
-    \item Unpredictability.
-    \item Hyperparameter dependencies, but not on the average performance impact.
-    \item Limited by the models' generalization capabilities and the characteristic overlap between classes.
-    \item Proximity-based detection techniques show limitations in detecting poisoning attacks.
-  \end{itemize}
+    \pause
+    \item A \alert{reproducible} evaluation framework to study the impact of label-flipping attacks in FIDS using FL.
+    \begin{itemize}\small
+      \item Reproducible, extendable, and available in open-access\footnote<+>{https://github.com/leolavaur/eiffel}.
+      \item Calls to be extended to other poisoning attacks, datasets, and partitioning strategies.
+    \end{itemize}
+  \end{enumerate}
   
-  \onslide<2>{A \alert{reproducible} evaluation framework to study the impact of label-flipping attacks in FIDS
-using FL.
-  \begin{itemize}\small
-    \item Reproducible, extendable, and available in open-access\footnote<2>{https://github.com/leolavaur/eiffel}.
-    \item Calls to be extended to other poisoning attacks, datasets, and partitioning strategies.
-  \end{itemize}}
+
+
 \end{frame}
 
 % \begin{frame}{Future Work}

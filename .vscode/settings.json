@@ -25,5 +25,6 @@
             "env": {}
         },
     ],
-    "latex-workshop.intellisense.citation.backend": "biblatex"
+    "latex-workshop.intellisense.citation.backend": "biblatex",
+    "latex-workshop.formatting.latex": "none"
 }
