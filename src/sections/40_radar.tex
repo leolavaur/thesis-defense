@@ -21,10 +21,11 @@
   % - Byzantine contributions -> no guaranties
   \textbf{Case study reminder}
   \begin{itemize}
-    \item Multiple organizations collaborating on a federated intrusion detection system.
-    \item Partial heterogeneity in the datasets: organizations have different data distributions but can share similarities.
+    \item Multiple organizations collaborating on a federated Intrusion Detection System.
+    \item Partial heterogeneity in the datasets: different data distributions but existing similarities.
   \end{itemize}
 
+  \pause
   \textbf{Byzantine contributions:}
   \begin{itemize}
     %\item No guarantees on the quality of the contributions.
@@ -104,13 +105,15 @@
   \vspace{3ex}
   
   \fcitefootnote{zhou_DifferentiallyPrivateFederated_2022}
+  \only<1>{\blankfootnote{}\blankfootnote{}\blankfootnote{}} % To keep the same height for the footnotes.
   \only<2->{\fcitefootnote{briggs_Federatedlearninghierarchical_2020}}
+  \only<2>{\blankfootnote{}}
   \only<3->{\fcitefootnote{zhao_ShieldingCollaborativeLearning_2020}}
 
 \end{frame}
 \endgroup
 
-\begin{frame}{Architecture \& Overview}
+\begin{frame}{Introducing \texttt{RADAR}}
   \centering
     \begin{figure}
         \centering
@@ -297,10 +300,6 @@
     \item Exponential decay for potential redemption.
   \end{itemize}
 
-  % \only<2>{%
-  %   \fcitefootnote{fung_DirichletBasedTrustManagement_2011}
-  % }
-
 \end{frame}
 
 \begin{frame}{Setup: Simulating Practical Heterogeneity}
@@ -323,7 +322,7 @@
     \fcitefootnote{sarhan_StandardFeatureSet_2021}
   \end{frame}
   
-  \begin{frame}{Setup: Attack scenarios}
+  \begin{frame}{Setup: Byzantine Scenarios}
       \begin{columns}
           \begin{column}{.4\textwidth}
               \textbf{Parameters}

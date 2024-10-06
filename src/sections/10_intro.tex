@@ -184,7 +184,7 @@
 
 
 
-\begin{frame}{State of the Art}
+\begin{frame}{Systematic Literature Review}
   
   \begin{columns}
     \begin{column}{.45\textwidth}
@@ -288,14 +288,15 @@
 % \end{frame}
 
 
-\begin{frame}[b]{Thesis Summary}
+\begin{frame}[b]{Contributions Summary}
   \centering%
-  \foreach \i in {1,...,11} {%
+  \vspace{-.8cm}
+  \foreach \i in {1,...,9} {%
     \includegraphics<\i>[width=1.1\linewidth, center]{./figures/intro/metro/\i.pdf}%
   }
-  \includegraphics<12->[width=1.1\linewidth, center]{./figures/intro/metro/12.pdf}%
+  \includegraphics<10->[width=1.1\linewidth, center]{./figures/intro/metro/10.pdf}%
 
-  \only<13>{
+  \only<11>{
     \tikz[overlay, remember picture,
       shift=(current page.south west),
       x=(current page.south east),
@@ -304,7 +305,7 @@
       % Optional help grid lines
       %\draw[step=.1, opacity=0.3, thick, red] (0,0) grid (1,1);
       
-      \node[align=left, anchor=south west] at (.05, .05) {\begin{minipage}{.9\textwidth}
+      \node[align=left, anchor=south west] at (.025, .05) {\begin{minipage}{.8\textwidth}
         \tableofcontents
       \end{minipage}};
     }

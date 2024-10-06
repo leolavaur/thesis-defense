@@ -101,3 +101,8 @@
 \RequirePackage{soul}
 \newcommand<>\st[1]{\only#2{\st{#1}}}
 \let\hl\relax
+
+\newcommand\blankfootnote[1]{%
+  \let\thefootnote\relax\footnotetext{#1}%
+  \let\thefootnote\svthefootnote%
+}
